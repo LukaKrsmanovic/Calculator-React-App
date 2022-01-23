@@ -8,4 +8,4 @@ A simple calculator created with React.
 * If some impossible input is written the error message ("Incorrect input, press Clear") will appear.
 * Multiplication and division operations have priority so they will be done first, but if there are multiple priority operations in a row they will be done from left to right in order.
 
-![Calculator image] (calculator-app-img.png)
+![Calculator image](./calculator-app-img.png)
