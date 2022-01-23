@@ -2,13 +2,19 @@
 
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 5%;
+}
+
+.App h1 {
+  font-size: 3rem;
+  margin: 3rem 0;
 }
 
 .calculator {
-  width: 400px;
+  max-width: 400px;
+  margin: 0 10px;
   border: 5px solid #282c34;
   font-size: 1.5rem;
   font-family: "Poppins", sans-serif;
@@ -44,9 +50,23 @@
   background-color: rgb(189, 123, 1);
 }
 
+.calculator .button-pad button:active {
+  background-color: #3c434e;
+}
+.calculator .button-pad div:first-child button:active,
+.calculator .button-pad div:last-child button:active {
+  background-color: rgb(221, 144, 1);
+}
+
 .ui.grid {
   margin: 0;
 }
 .ui.grid > .column:not(.row) {
   padding: 8px 7px;
+}
+
+@media screen and (max-width: 450px) {
+  .App h1 {
+    font-size: 2.2rem;
+  }
 }
