@@ -37,7 +37,6 @@ export const Calculator = () => {
   };
 
   const inputClear = (res = 0) => {
-    console.log(res);
     if (res === 0) {
       setResult(0);
       setValue("");
@@ -65,17 +64,40 @@ export const Calculator = () => {
     values.push(temp);
 
     if (correct) {
-      let res = values[0];
+      const priorityOps = ["*", "/"];
+      let res = 0;
+
       for (let i = 0; i < operations.length; i++) {
-        if (operations[i] === "+") {
-          res += values[i + 1];
-        } else if (operations[i] === "-") {
-          res -= values[i + 1];
-        } else if (operations[i] === "*") {
-          res *= values[i + 1];
-        } else if (operations[i] === "/") {
-          res /= values[i + 1];
+        if (priorityOps.includes(operations[i])) {
+          if (i === 0) {
+            res = operationResolve(values[i], values[i + 1], operations[i]);
+            values[i] = 0;
+          } else if (!priorityOps.includes(operations[i - 1])) {
+            // we have to check which operation was before the first priority (+ or -)
+            res = operationResolve(
+              res,
+              operationResolve(values[i], values[i + 1], operations[i]),
+              operations[i - 1]
+            );
+            values[i] = 0;
+          } else {
+            res = operationResolve(res, values[i + 1], operations[i]);
+          }
+          // removing from regular array
+          values[i + 1] = 0;
         }
+      }
+
+      // removing priority operations from regular array
+      for (let i = 0; i < operations.length; i++) {
+        if (priorityOps.includes(operations[i])) {
+          operations[i] = "+";
+        }
+      }
+
+      res += values[0];
+      for (let i = 0; i < operations.length; i++) {
+        res = operationResolve(res, values[i + 1], operations[i]);
       }
       if (isNaN(res)) {
         inputClear(0);
@@ -88,11 +110,18 @@ export const Calculator = () => {
     }
   };
 
-  // use it to check if the number is okay
-  useEffect(() => {
-    console.log(values);
-    console.log(operations);
-  }, [JSON.stringify(values), JSON.stringify(operations)]);
+  const operationResolve = (a, b, op) => {
+    switch (op) {
+      case "+":
+        return a + b;
+      case "-":
+        return a - b;
+      case "*":
+        return a * b;
+      case "/":
+        return a / b;
+    }
+  };
 
   return (
     <div className="calculator">
