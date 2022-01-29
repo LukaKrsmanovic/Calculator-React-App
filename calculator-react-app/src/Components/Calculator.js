@@ -123,12 +123,21 @@ export const Calculator = () => {
     }
   };
 
+  const comingSoon = () => {
+    setClicking(false);
+    setIsCorrect(false);
+    setResult("Feature ( ) coming soon...");
+  };
+
   return (
     <div className="calculator">
       <div className="c-result">{clicking ? fullInput : result}</div>
       <div className="ui grid button-pad">
-        <div className="twelve wide column">
+        <div className="eight wide column">
           <button onClick={() => inputClear(0)}>Clear</button>
+        </div>
+        <div className="four wide column">
+          <button onClick={comingSoon}>( )</button>
         </div>
         <div className="four wide column">
           <button onClick={buttonClick}> / </button>
